@@ -63,6 +63,7 @@ def marker_map(posts):
     return geo_data
 
 def generate_statistics(geo_data):
+    """Генерирует статистику по местам выкладывания постов."""
     if not geo_data:
         return pd.DataFrame()  # Возвращаем пустой DataFrame, если нет данных
 
@@ -138,9 +139,15 @@ def search_posts(request):
         )
 
         graph_html = fig.to_html(full_html=False)
+        # Генерируем статистику по местам выкладывания постов
+        statistics = generate_statistics(geo_data)
+
+        # Преобразуем статистику в HTML для отображения на странице
+        statistics_html = statistics.to_html(classes='table table-striped', index=False)
     else:
         graph_html = None  # Если нет данных для отображения
+        statistics_html = None  # Если нет статистики для отображения
         
     statistics = generate_statistics(geo_data)
 
-    return render(request, 'posts/search.html', {'posts': posts, 'graph_html': graph_html})
+    return render(request, 'posts/search.html', {'posts': posts, 'graph_html': graph_html, 'statistics_html': statistics_html})
