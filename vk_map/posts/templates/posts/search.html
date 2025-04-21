@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск постов ВК</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+</head>
+
+<body>
+   
+    <div class="container-fluid mt-3 pr-5 pl-5">
+        <h1 class="text-center">Поиск постов ВКонтакте</h1>
+        <form id="get" method="get">
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="query">Ключевое слово</label>
+                        <input id="query" name="query" type="text" class="form-control" placeholder="Введите ключевое слово" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="count">Количество постов</label>
+                        <input id="count" name="count" type="number" class="form-control" placeholder="Введите количество постов" max="200" value="10" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="start_time">Дата и время начала поиска</label>
+                        <input id="start_time" name="start_time" type="datetime-local" class="form-control" placeholder="ДД.ММ.ГГГГ"  required>
+                    </div>
+                </div>
+
+            </div>
+
+            <button id="submit" class="btn btn-primary mb-4"><i class="fas fa-search"></i> Поиск</button>
+        </form>
+
+        <div class="row">
+            <div class="col-md-6 half">
+                <h2>Найденные посты:</h2>
+                <ul>
+                    {% for post in posts %}
+                        <li>
+                            <strong id="src">Ссылка на источник:</strong> <a href='https://vk.com/wall{{ post.owner_id }}_{{ post.id }}'>https://vk.com/wall{{ post.owner_id }}_{{ post.id }}</a><br>
+                            <p id="text"><strong>Текст:</strong> {{ post.text }}</p>
+                            <P id= "result"></P>
+                        </li>
+                    {% endfor %}
+                </ul>
+                    </div>
+            <div class="col-md-6 half">
+                <h2>Карта</h2>
+                <div id="map">
+                    {{ graph_html|safe }}
+                </div>
+            </div>
+            <div class="col-md-6 half">
+                <div id="stat">
+                    <ul>
+                        {% for location, count in location_stats.items %}
+                            <li>{{ location }}: {{ count }} постов</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
