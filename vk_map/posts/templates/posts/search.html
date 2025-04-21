@@ -61,11 +61,7 @@
             </div>
             <div class="col-md-6 half">
                 <div id="stat">
-                    <ul>
-                        {% for location, count in location_stats.items %}
-                            <li>{{ location }}: {{ count }} постов</li>
-                        {% endfor %}
-                    </ul>
+                    {{ statistics_html|safe}}
                 </div>
             </div>
         </div>
